@@ -282,6 +282,15 @@ public class NotesAppFrame extends JFrame {
 
         if (grade < 0 || grade > 20) {
             JOptionPane.showMessageDialog(this, "Nota fuera del rango", "Validacion", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        if (repo.existsByStudentAndSubject(student, subject)) {
+            JOptionPane.showMessageDialog(this,
+                    "Ya existe una nota registrada para ese estudiante en esa asignatura.",
+                    "Validación",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
         }
 
         repo.create(student, subject, grade);
@@ -322,6 +331,19 @@ public class NotesAppFrame extends JFrame {
             grade = Integer.parseInt(gradeRaw);
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Calificación inválida. Usa un entero (sin decimales).", "Validación", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        if (grade < 0 || grade > 20) {
+            JOptionPane.showMessageDialog(this, "Nota fuera del rango", "Validacion", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        if (repo.existsByStudentAndSubjectExcludingId(student, subject, selectedId)) {
+            JOptionPane.showMessageDialog(this,
+                    "Ya existe una nota registrada para ese estudiante en esa asignatura.",
+                    "Validación",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -402,7 +424,7 @@ public class NotesAppFrame extends JFrame {
         JMenuItem acercaCreadores = new JMenuItem("Acerca de creadores");
         acercaCreadores.addActionListener(e -> JOptionPane.showMessageDialog(
                 this,
-                "Creadores:\n- Alejandro Anco\n\nProyecto: Registro de Notas",
+                "Creadores:\n- (Tu equipo)\n\nProyecto: Registro de Notas",
                 "Acerca de creadores",
                 JOptionPane.INFORMATION_MESSAGE
         ));
